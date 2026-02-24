@@ -61,6 +61,8 @@ body {
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
+  height: 100vh;
+  position: relative;
 }
 
 /* ── WORLD VIEWS ────────────────────────────────────────────────────────────── */
@@ -104,7 +106,7 @@ body {
 
 #road-scene {
   position: relative;
-  height: calc(100% - 80px);
+  height: calc(100% - 120px);
   overflow: hidden;
 }
 
@@ -168,12 +170,16 @@ body {
 .road-event.bad { color: var(--red); }
 
 #road-actions {
-  height: 80px;
+  height: auto;
+  min-height: 110px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  background: rgba(0,0,0,.4);
+  gap: 8px;
+  padding: 10px 12px;
+  background: rgba(0,0,0,.55);
+  border-top: 1px solid #333;
 }
 .road-btn {
   background: var(--grey);
@@ -453,100 +459,93 @@ body {
 }
 
 
-
-/* ══════════════════════════════════════════════════════════
-   HUD BAR — always-visible inventory strip
-══════════════════════════════════════════════════════════ */
+/* ══ HUD BAR ══ */
 #hud-bar {
   display: flex;
-  align-items: center;
-  background: var(--black);
+  align-items: stretch;
+  background: #111;
   border-bottom: 2px solid var(--mustard);
-  padding: 5px 8px;
+  padding: 4px 6px;
   gap: 0;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   position: sticky;
   top: 0;
   z-index: 20;
+  flex-shrink: 0;
 }
-
 .hud-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 52px;
-  padding: 2px 6px;
-  border-right: 1px solid #333;
+  flex: 1;
+  padding: 2px 4px;
+  border-right: 1px solid #2a2a2a;
+  min-width: 0;
 }
 .hud-item:last-child { border-right: none; }
 .hud-divider { border-left: 2px solid var(--mustard); }
-
-.hud-icon  { font-size: 14px; line-height: 1; }
-.hud-label { font-size: 9px; color: #666; letter-spacing: 0.5px; text-transform: uppercase; }
+.hud-icon  { font-size: 13px; line-height: 1.2; }
+.hud-label { font-size: 8px; color: #555; letter-spacing: 0.5px; text-transform: uppercase; white-space: nowrap; }
 .hud-val   {
   font-family: "Oswald", sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--mustard);
-  min-width: 36px;
   text-align: center;
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* ══════════════════════════════════════════════════════════
-   ROAD ACTIONS — event buttons + manual earn buttons
-══════════════════════════════════════════════════════════ */
-#road-actions {
-  height: auto;
-  min-height: 90px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 12px;
-  background: rgba(0,0,0,.5);
-}
-
+/* ══ ROAD action rows ══ */
 #road-event-btns {
   display: flex;
-  gap: 12px;
+  gap: 10px;
+  align-items: center;
 }
-
 #manual-earn-btns {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
-/* Earn buttons — clickable resource grinders */
+/* ══ EARN BUTTONS ══ */
 .earn-btn {
   border: 2px solid #444;
   background: #111;
   font-family: "Oswald", sans-serif;
-  font-size: 13px;
-  padding: 6px 14px;
+  font-size: 12px;
+  padding: 5px 12px;
   cursor: pointer;
   letter-spacing: 1px;
   text-transform: uppercase;
-  transition: background .08s, transform .08s, border-color .08s;
+  transition: background .08s, transform .08s;
   user-select: none;
+  white-space: nowrap;
 }
-.earn-btn:hover  { border-color: var(--bone); color: var(--bone); }
-.earn-btn:active { transform: scale(0.94); }
-
+.earn-btn:active { transform: scale(0.93); }
 .earn-cash { color: var(--mustard); border-color: var(--mustard); }
 .earn-cash:hover { background: var(--mustard); color: var(--black); }
-
-.earn-fans { color: var(--red); border-color: var(--red); }
-.earn-fans:hover { background: var(--red); color: var(--bone); }
-
+.earn-fans { color: #c0392b; border-color: #c0392b; }
+.earn-fans:hover { background: #c0392b; color: var(--bone); }
 .earn-gear { color: #7ec8e3; border-color: #7ec8e3; }
 .earn-gear:hover { background: #7ec8e3; color: var(--black); }
+.btn-pulse { filter: brightness(1.7); }
 
-/* Pulse flash on click */
-.btn-pulse { filter: brightness(1.6); }
+/* ══ HOME BASE manual earn strip ══ */
+#hq-earn-strip {
+  position: absolute;
+  bottom: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
 
-/* ══════════════════════════════════════════════════════════
-   CLICK FLOATER — +N Cash / Fans / Gear popup
-══════════════════════════════════════════════════════════ */
+/* ══ CLICK FLOATER ══ */
 .click-floater {
   position: fixed;
   pointer-events: none;
@@ -555,11 +554,10 @@ body {
   font-weight: 700;
   z-index: 9999;
   white-space: nowrap;
-  animation: floater-rise 0.8s ease-out forwards;
+  animation: floater-rise 0.75s ease-out forwards;
 }
-
 @keyframes floater-rise {
-  0%   { opacity: 1;   transform: translateY(0)    scale(1.1); }
-  60%  { opacity: 1;   transform: translateY(-28px) scale(1); }
-  100% { opacity: 0;   transform: translateY(-48px) scale(0.9); }
+  0%   { opacity: 1; transform: translateY(0) scale(1.1); }
+  60%  { opacity: 1; transform: translateY(-30px) scale(1); }
+  100% { opacity: 0; transform: translateY(-52px) scale(0.9); }
 }
