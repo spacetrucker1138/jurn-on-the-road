@@ -49,6 +49,8 @@ body {
   flex: 1 1 auto;
   overflow: hidden;
   background: var(--black);
+  display: flex;
+  flex-direction: column;
 }
 
 /* RIGHT: side panel */
@@ -66,20 +68,29 @@ body {
 }
 
 /* ── WORLD VIEWS ────────────────────────────────────────────────────────────── */
-.world-view { position: absolute; inset: 0; display: none; }
+.world-view { display: none; flex: 1 1 auto; overflow: hidden; }
 .world-view.active-view { display: block; }
+#road-view.active-view  { display: flex; }
 
 #hq-bg { width: 100%; height: 100%; object-fit: cover; }
 
 /* Screen-swap toggle */
 #screen-toggle {
   display: flex;
-  gap: 8px;
-  justify-content: center;
-  padding: 6px 0 2px;
-  background: rgba(0,0,0,.55);
+  gap: 0;
+  background: #0d0d0d;
+  border-bottom: 2px solid var(--mustard);
   flex-shrink: 0;
 }
+#screen-toggle .toggle-btn {
+  flex: 1;
+  border-radius: 0;
+  border: none;
+  border-right: 1px solid #333;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+#screen-toggle .toggle-btn:last-child { border-right: none; }
 
 .toggle-btn {
   background: var(--grey);
@@ -566,3 +577,5 @@ body {
   60%  { opacity: 1; transform: translateY(-30px) scale(1); }
   100% { opacity: 0; transform: translateY(-52px) scale(0.9); }
 }
+
+#home-base-view { position: relative; }
