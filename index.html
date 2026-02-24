@@ -40,6 +40,12 @@
       <!-- HOME BASE view -->
       <div id="home-base-view" class="world-view active-view">
         <img src="assets/images/world.webp" alt="Band HQ" id="hq-bg" />
+        <!-- Manual earn buttons on HQ screen too -->
+        <div id="hq-earn-strip">
+          <button id="earn-cash-btn" class="earn-btn earn-cash">💵 Cash</button>
+          <button id="earn-fans-btn" class="earn-btn earn-fans">📣 Fans</button>
+          <button id="earn-gear-btn" class="earn-btn earn-gear">🎸 Gear</button>
+        </div>
       </div>
 
       <!-- ON THE ROAD view -->
@@ -53,16 +59,16 @@
           </div>
         </div>
 
-        <!-- Road actions: events + manual buttons -->
+        <!-- Road action buttons: two rows -->
         <div id="road-actions">
           <div id="road-event-btns">
             <button id="book-show-btn" class="road-btn">🎸 Book Show</button>
             <button id="busk-btn" class="road-btn">🥁 Busk</button>
           </div>
           <div id="manual-earn-btns">
-            <button id="earn-cash-btn" class="earn-btn earn-cash">💵 Earn Cash</button>
-            <button id="earn-fans-btn" class="earn-btn earn-fans">📣 Earn Fans</button>
-            <button id="earn-gear-btn" class="earn-btn earn-gear">🎸 Earn Gear</button>
+            <button id="earn-cash-btn-road" class="earn-btn earn-cash">💵 Cash</button>
+            <button id="earn-fans-btn-road" class="earn-btn earn-fans">📣 Fans</button>
+            <button id="earn-gear-btn-road" class="earn-btn earn-gear">🎸 Gear</button>
           </div>
         </div>
       </div>
@@ -83,7 +89,7 @@
         <span id="version">v0.1-alpha</span>
       </header>
 
-      <!-- ══ STICKY HUD ══ Always-visible inventory bar -->
+      <!-- ══ STICKY HUD ══ -->
       <div id="hud-bar">
         <div class="hud-item">
           <span class="hud-icon">💵</span>
@@ -112,28 +118,22 @@
         </div>
       </div>
 
-      <!-- Resources (detailed, shown in side panel) -->
+      <!-- Resources (detailed) -->
       <section id="resources">
         <div class="resource" id="cash-row">
           <span class="res-label">💵 Cash</span>
           <span id="cash-amount">0</span>
-          <span class="income" id="cash-income-wrap">
-            (+<span id="cash-income">0.0</span>/s)
-          </span>
+          <span class="income" id="cash-income-wrap">(+<span id="cash-income">0.0</span>/s)</span>
         </div>
         <div class="resource" id="fans-row">
           <span class="res-label">📣 Fans</span>
           <span id="fans-amount">0</span>
-          <span class="income" id="fans-income-wrap">
-            (+<span id="fans-income">0.0</span>/s)
-          </span>
+          <span class="income" id="fans-income-wrap">(+<span id="fans-income">0.0</span>/s)</span>
         </div>
         <div class="resource" id="gear-row">
           <span class="res-label">🎸 Gear</span>
           <span id="gear-amount">0</span>
-          <span class="income" id="gear-income-wrap">
-            (+<span id="gear-income">0.0</span>/s)
-          </span>
+          <span class="income" id="gear-income-wrap">(+<span id="gear-income">0.0</span>/s)</span>
         </div>
         <div class="speed-row">
           <span>Booking: <span id="craft-speed">1.0</span>x</span>
@@ -141,7 +141,7 @@
         </div>
       </section>
 
-      <!-- Tab buttons -->
+      <!-- Tabs -->
       <nav id="tabs">
         <button id="assign-button" class="tab-btn">Crew</button>
         <button id="craft-button" class="tab-btn">Book Gigs</button>
@@ -150,16 +150,13 @@
 
       <!-- CREW tab -->
       <section id="assign" class="tab-section">
-
         <div class="building-block" id="van-block">
           <h3>Van <span class="level-badge">Lv.<span id="tent-level">0</span></span></h3>
           <p><span id="lumberjack">0</span> roadies riding along</p>
         </div>
-
         <div class="building-block" id="bar-block">
           <h3>Bar Circuit <span class="level-badge">Lv.<span id="pier-level">0</span></span>
-            <span class="chaos-badge">(<span id="pier-chaos">0</span>% chaos)</span>
-          </h3>
+            <span class="chaos-badge">(<span id="pier-chaos">0</span>% chaos)</span></h3>
           <div class="job-row">
             <span class="job-label">Roadies</span>
             <button id="fisherman-villager-down" class="nudge-btn">−</button>
@@ -179,11 +176,9 @@
             <button id="fisherman-manager-up" class="nudge-btn">+</button>
           </div>
         </div>
-
         <div class="building-block" id="club-block">
           <h3>Club Circuit <span class="level-badge">Lv.<span id="quarry-level">0</span></span>
-            <span class="chaos-badge">(<span id="quarry-chaos">0</span>% chaos)</span>
-          </h3>
+            <span class="chaos-badge">(<span id="quarry-chaos">0</span>% chaos)</span></h3>
           <div class="job-row">
             <span class="job-label">Roadies</span>
             <button id="miner-villager-down" class="nudge-btn">−</button>
@@ -203,11 +198,9 @@
             <button id="miner-manager-up" class="nudge-btn">+</button>
           </div>
         </div>
-
         <div class="building-block" id="merch-block">
           <h3>Merch Table <span class="level-badge">Lv.<span id="smithy-level">0</span></span>
-            <span class="chaos-badge">(<span id="smithy-chaos">0</span>% chaos)</span>
-          </h3>
+            <span class="chaos-badge">(<span id="smithy-chaos">0</span>% chaos)</span></h3>
           <div class="job-row">
             <span class="job-label">Roadies</span>
             <button id="blacksmith-villager-down" class="nudge-btn">−</button>
@@ -227,11 +220,9 @@
             <button id="blacksmith-manager-up" class="nudge-btn">+</button>
           </div>
         </div>
-
         <div class="building-block" id="festival-block">
           <h3>Festival Stage <span class="level-badge">Lv.<span id="academy-level">0</span></span>
-            <span class="chaos-badge">(<span id="academy-chaos">0</span>% chaos)</span>
-          </h3>
+            <span class="chaos-badge">(<span id="academy-chaos">0</span>% chaos)</span></h3>
           <div class="job-row">
             <span class="job-label">Roadies</span>
             <button id="professor-villager-down" class="nudge-btn">−</button>
@@ -251,7 +242,6 @@
             <button id="professor-manager-up" class="nudge-btn">+</button>
           </div>
         </div>
-
       </section>
 
       <!-- BOOK GIGS tab -->
@@ -276,7 +266,7 @@
     </div><!-- /side -->
   </div><!-- /layout -->
 
-  <!-- Hidden gather buttons (still needed by game.js listeners) -->
+  <!-- Hidden gather buttons (game.js uses these) -->
   <button id="gather-wood" style="display:none"></button>
   <button id="gather-food" style="display:none"></button>
 
