@@ -451,3 +451,115 @@ body {
   #world  { height: 45vh; }
   #side   { width: 100%; border-left: none; border-top: 2px solid var(--mustard); }
 }
+
+
+
+/* ══════════════════════════════════════════════════════════
+   HUD BAR — always-visible inventory strip
+══════════════════════════════════════════════════════════ */
+#hud-bar {
+  display: flex;
+  align-items: center;
+  background: var(--black);
+  border-bottom: 2px solid var(--mustard);
+  padding: 5px 8px;
+  gap: 0;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.hud-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 52px;
+  padding: 2px 6px;
+  border-right: 1px solid #333;
+}
+.hud-item:last-child { border-right: none; }
+.hud-divider { border-left: 2px solid var(--mustard); }
+
+.hud-icon  { font-size: 14px; line-height: 1; }
+.hud-label { font-size: 9px; color: #666; letter-spacing: 0.5px; text-transform: uppercase; }
+.hud-val   {
+  font-family: "Oswald", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--mustard);
+  min-width: 36px;
+  text-align: center;
+}
+
+/* ══════════════════════════════════════════════════════════
+   ROAD ACTIONS — event buttons + manual earn buttons
+══════════════════════════════════════════════════════════ */
+#road-actions {
+  height: auto;
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: rgba(0,0,0,.5);
+}
+
+#road-event-btns {
+  display: flex;
+  gap: 12px;
+}
+
+#manual-earn-btns {
+  display: flex;
+  gap: 8px;
+}
+
+/* Earn buttons — clickable resource grinders */
+.earn-btn {
+  border: 2px solid #444;
+  background: #111;
+  font-family: "Oswald", sans-serif;
+  font-size: 13px;
+  padding: 6px 14px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: background .08s, transform .08s, border-color .08s;
+  user-select: none;
+}
+.earn-btn:hover  { border-color: var(--bone); color: var(--bone); }
+.earn-btn:active { transform: scale(0.94); }
+
+.earn-cash { color: var(--mustard); border-color: var(--mustard); }
+.earn-cash:hover { background: var(--mustard); color: var(--black); }
+
+.earn-fans { color: var(--red); border-color: var(--red); }
+.earn-fans:hover { background: var(--red); color: var(--bone); }
+
+.earn-gear { color: #7ec8e3; border-color: #7ec8e3; }
+.earn-gear:hover { background: #7ec8e3; color: var(--black); }
+
+/* Pulse flash on click */
+.btn-pulse { filter: brightness(1.6); }
+
+/* ══════════════════════════════════════════════════════════
+   CLICK FLOATER — +N Cash / Fans / Gear popup
+══════════════════════════════════════════════════════════ */
+.click-floater {
+  position: fixed;
+  pointer-events: none;
+  font-family: "Oswald", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  z-index: 9999;
+  white-space: nowrap;
+  animation: floater-rise 0.8s ease-out forwards;
+}
+
+@keyframes floater-rise {
+  0%   { opacity: 1;   transform: translateY(0)    scale(1.1); }
+  60%  { opacity: 1;   transform: translateY(-28px) scale(1); }
+  100% { opacity: 0;   transform: translateY(-48px) scale(0.9); }
+}
