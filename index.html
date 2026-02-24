@@ -36,6 +36,11 @@
 
     <!-- LEFT: World canvas -->
     <div id="world">
+      <!-- Screen-swap: top nav strip, always visible, never overlaps views -->
+      <div id="screen-toggle">
+        <button id="go-road-btn" class="toggle-btn active-toggle">🚐 Hit the Road</button>
+        <button id="go-base-btn" class="toggle-btn">🏚 Return to HQ</button>
+      </div>
 
       <!-- HOME BASE view -->
       <div id="home-base-view" class="world-view active-view">
@@ -69,11 +74,6 @@
             <button id="earn-cash-btn-road" class="earn-btn earn-cash">💵 Cash</button>
             <button id="earn-fans-btn-road" class="earn-btn earn-fans">📣 Fans</button>
             <button id="earn-gear-btn-road" class="earn-btn earn-gear">🎸 Gear</button>
-          </div>
-          <!-- Screen-swap toggle lives here in normal flow -->
-          <div id="screen-toggle">
-            <button id="go-road-btn" class="toggle-btn active-toggle">🚐 Hit the Road</button>
-            <button id="go-base-btn" class="toggle-btn">🏚 Return to HQ</button>
           </div>
         </div>
       </div>
