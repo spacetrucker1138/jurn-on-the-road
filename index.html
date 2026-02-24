@@ -1,473 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta http-equiv="ScreenOrientation" content="autoRotate:disabled" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JURN: On the Road</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+  <link rel="manifest" href="site.webmanifest" />
+</head>
+<body>
+  <!-- Story shroud (full-screen narrative) -->
+  <div id="story-shroud">
+    <div id="story-box">
+      <p id="story-text"></p>
+      <button id="story-dismiss">Let's ride</button>
+    </div>
+  </div>
 
-		<!-- Meta -->
-		<meta
-			name="description"
-			content="A short idle game about management."
-		/>
-		<meta name="theme-color" content="#768c38" />
-		<title>Village of Chaos</title>
+  <!-- Tutorial pop-up -->
+  <div id="popup-shroud">
+    <div id="popup">
+      <p id="popup-text"></p>
+      <button id="popup-dismiss">Got it</button>
+    </div>
+  </div>
 
-		<!-- Favicon -->
-		<link
-			rel="apple-touch-icon"
-			sizes="180x180"
-			href="apple-touch-icon.png"
-		/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="32x32"
-			href="favicon-32x32.png"
-		/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="16x16"
-			href="favicon-16x16.png"
-		/>
-		<link rel="manifest" href="site.webmanifest" />
+  <!-- Main layout -->
+  <div id="layout">
 
-		<!-- CSS -->
-		<link rel="stylesheet" href="assets/css/style.css" />
-		<!-- Fonts -->
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Alegreya:wght@400;700&family=Fira+Mono&family=Milonga&display=swap"
-			rel="stylesheet"
-		/>
+    <!-- LEFT: World canvas (swaps between Home Base & On the Road) -->
+    <div id="world">
+      <!-- HOME BASE view (village = band HQ) -->
+      <div id="home-base-view" class="world-view active-view">
+        <img src="assets/images/world.webp" alt="Band HQ" id="hq-bg" />
+        <!-- Building sprites rendered on top by JS -->
+      </div>
 
-		<!-- Scripts. Do not reorder! -->
-		<script defer src="assets/js/vendor/gameloop.js"></script>
-		<script defer src="assets/js/util.js"></script>
-		<script defer src="assets/js/dom.js"></script>
-		<script defer src="assets/js/game.js"></script>
-		<script defer src="assets/js/upgradeList.js"></script>
-		<script defer src="assets/js/tutorial.js"></script>
-		<script defer src="assets/js/main.js"></script>
-	</head>
-	<body>
-		<!-- Javascript is required -->
-		<noscript>
-			<h1>Village of Chaos</h1>
-			<p>
-				This game requires Javascript to function. Please enable
-				Javascript for this website, or use a supported browser to play
-				Village of Chaos.
-			</p>
-		</noscript>
+      <!-- ON THE ROAD view -->
+      <div id="road-view" class="world-view">
+        <div id="road-scene">
+          <div id="road-sky"></div>
+          <div id="road-ground"></div>
+          <div id="van-wrap"><div id="van-sprite">🚐</div></div>
+          <div id="road-event-feed">
+            <p class="road-hint">Hit the road to start earning Fans &amp; Cash between shows.</p>
+          </div>
+        </div>
+        <div id="road-actions">
+          <button id="book-show-btn" class="road-btn">🎸 Book a Show</button>
+          <button id="busk-btn" class="road-btn">🥁 Busk for Cash</button>
+        </div>
+      </div>
 
-		<!-- The square area covering most of the window -->
-		<section id="main">
-			<!-- Background - game world display -->
-			<section id="world">
-				<img
-					id="terrain-img"
-					alt="Game terrain"
-					src="assets/images/world.webp"
-				/>
-				<img
-					id="tent-img"
-					alt="Villager tents"
-					src="assets/images/tent.webp"
-				/>
-				<img
-					id="villager-img"
-					alt="A standing animated villager"
-					src="assets/images/villager.gif"
-				/>
-				<img
-					id="pier-img"
-					alt="Fishing pier"
-					src="assets/images/pier.webp"
-				/>
-				<img
-					id="fisherman-1-img"
-					alt="A standing animated fisherman"
-					src="assets/images/fisherman.gif"
-				/>
-				<img
-					id="fisherman-2-img"
-					alt="A standing animated fisherman"
-					src="assets/images/fisherman.gif"
-				/>
-				<img
-					id="quarry-img"
-					alt="Quarry entrance"
-					src="assets/images/quarry.webp"
-				/>
-				<img
-					id="miner-1-img"
-					alt="A standing animated miner"
-					src="assets/images/miner.gif"
-				/>
-				<img
-					id="miner-2-img"
-					alt="A standing animated miner"
-					src="assets/images/miner.gif"
-				/>
-				<img
-					id="smithy-img"
-					alt="Smithing workshop"
-					src="assets/images/smithy.webp"
-				/>
-				<img
-					id="blacksmith-img"
-					alt="A working animated blacksmith"
-					src="assets/images/blacksmith.gif"
-				/>
-				<img
-					id="academy-img"
-					alt="Village academy area"
-					src="assets/images/academy.webp"
-				/>
-				<img
-					id="professor-1-img"
-					alt="A working animated herbalist"
-					src="assets/images/professor1.gif"
-				/>
-				<img
-					id="professor-2-img"
-					alt="A working animated potion maker"
-					src="assets/images/professor2.gif"
-				/>
-			</section>
+      <!-- Screen-swap toggle -->
+      <div id="screen-toggle">
+        <button id="go-road-btn" class="toggle-btn active-toggle">🚐 Hit the Road</button>
+        <button id="go-base-btn" class="toggle-btn">🏚 Return to HQ</button>
+      </div>
+    </div>
 
-			<!-- Controls for manual resource gathering -->
-			<section id="gathering">
-				<button id="gather-wood">Gather wood</button>
-				<button id="gather-food">Gather food</button>
-			</section>
-		</section>
+    <!-- RIGHT: Side panel -->
+    <div id="side">
 
-		<!-- Side area with primary controls and upgrades -->
-		<section id="side">
-			<!-- Header with title and system controls -->
-			<header>
-				<h1>Village of Chaos</h1>
-				<p>ver. 1.0</p>
-				<button id="save">Save</button>
-				<button id="load">Load</button>
-				<button id="reset">Reset</button>
-			</header>
+      <!-- Header -->
+      <header id="game-header">
+        <h1>JURN: On the Road</h1>
+        <span id="version">v0.1-alpha</span>
+      </header>
 
-			<!-- Information section about current resources and multipliers -->
-			<section id="warehouse">
-				<div>
-					<p class="resource wood">
-						<span class="resource-name">Wood:</span>
-						<span class="resource-amount" id="wood-amount"></span>
-						<br />
-						<span class="income">
-							(+<span id="wood-income"></span>/s)
-						</span>
-					</p>
-					<p class="resource food">
-						<span class="resource-name">Food:</span>
-						<span class="resource-amount" id="food-amount"></span>
-						<br />
-						<span class="income">
-							(+<span id="food-income"></span>/s)
-						</span>
-					</p>
-					<p class="resource stone">
-						<span class="resource-name">Stone:</span>
-						<span class="resource-amount" id="stone-amount"></span>
-						<br />
-						<span class="income">
-							(+<span id="stone-income"></span>/s)
-						</span>
-					</p>
-				</div>
-				<div>
-					<p class="multiplier craft-speed">
-						<span class="multiplier-name">Crafting:</span>
-						<span class="multiplier-amount" id="craft-speed"></span
-						>x
-					</p>
-					<p class="multiplier research-speed">
-						<span class="multiplier-name">Research:</span>
-						<span
-							class="multiplier-amount"
-							id="research-speed"
-						></span
-						>x
-					</p>
-				</div>
-			</section>
+      <!-- Resources -->
+      <section id="resources">
+        <div class="resource" id="cash-row">
+          <span class="res-label">💵 Cash</span>
+          <span id="cash-amount">0</span>
+          <span class="income" id="cash-income-wrap">
+            (+<span id="cash-income">0.0</span>/s)
+          </span>
+        </div>
+        <div class="resource" id="fans-row">
+          <span class="res-label">📣 Fans</span>
+          <span id="fans-amount">0</span>
+          <span class="income" id="fans-income-wrap">
+            (+<span id="fans-income">0.0</span>/s)
+          </span>
+        </div>
+        <div class="resource" id="gear-row">
+          <span class="res-label">🎸 Gear</span>
+          <span id="gear-amount">0</span>
+          <span class="income" id="gear-income-wrap">
+            (+<span id="gear-income">0.0</span>/s)
+          </span>
+        </div>
+        <div class="speed-row">
+          <span>Booking speed: <span id="craft-speed">1.0</span>x</span>
+          <span>Hustle speed: <span id="research-speed">1.0</span>x</span>
+        </div>
+      </section>
 
-			<!-- Game control panel -->
-			<section id="controls">
-				<!-- Assign tab - assign villagers to jobs -->
-				<div id="assign">
-					<div class="job tent">
-						<h2>Tent</h2>
-						<p class="job-details">
-							Lv.
-							<span class="job-level" id="tent-level"></span>
-						</p>
-						<div class="villager">
-							<p>
-								<span class="job-count" id="lumberjack"></span>
-								villagers chopping down trees
-							</p>
-						</div>
-					</div>
-					<div class="job pier">
-						<h2>Pier</h2>
-						<p class="job-details">
-							Lv. <span class="job-level" id="pier-level"></span>
-							<span class="chaos"
-								>(<span id="pier-chaos"></span>% chaos)</span
-							>
-						</p>
-						<div class="assignment villager">
-							<p>
-								Villagers:
-								<span
-									class="job-count"
-									id="fisherman-villager"
-								></span>
-							</p>
-							<div class="buttons">
-								<button id="fisherman-villager-up">+</button>
-								<button id="fisherman-villager-down">‒</button>
-							</div>
-						</div>
-						<div class="assignment mentor">
-							<p>
-								Mentors:
-								<span
-									class="job-count"
-									id="fisherman-mentor"
-								></span>
-							</p>
-							<div class="buttons">
-								<button id="fisherman-mentor-up">+</button>
-								<button id="fisherman-mentor-down">‒</button>
-							</div>
-						</div>
-						<div class="assignment manager">
-							<p>
-								Managers:
-								<span
-									class="job-count"
-									id="fisherman-manager"
-								></span>
-							</p>
-							<div class="buttons">
-								<button id="fisherman-manager-up">+</button>
-								<button id="fisherman-manager-down">‒</button>
-							</div>
-						</div>
-					</div>
-					<div class="job quarry">
-						<h2>Quarry</h2>
-						<p class="job-details">
-							Lv.
-							<span class="job-level" id="quarry-level"></span>
-							<span class="chaos"
-								>(<span id="quarry-chaos"></span>% chaos)</span
-							>
-						</p>
-						<div class="assignment villager">
-							<p>
-								Villagers:
-								<span
-									class="job-count"
-									id="miner-villager"
-								></span>
-							</p>
-							<div class="buttons">
-								<button id="miner-villager-up">+</button>
-								<button id="miner-villager-down">‒</button>
-							</div>
-						</div>
-						<div class="assignment mentor">
-							<p>
-								Mentors:
-								<span
-									class="job-count"
-									id="miner-mentor"
-								></span>
-							</p>
-							<div class="buttons">
-								<button id="miner-mentor-up">+</button>
-								<button id="miner-mentor-down">‒</button>
-							</div>
-						</div>
-						<div class="assignment manager">
-							<p>
-								Managers:
-								<span
-									class="job-count"
-									id="miner-manager"
-								></span>
-							</p>
-							<div class="buttons">
-								<button id="miner-manager-up">+</button>
-								<button id="miner-manager-down">‒</button>
-							</div>
-						</div>
-					</div>
-					<div class="job smithy">
-						<h2>Smithy</h2>
-						<p class="job-details">
-							Lv.
-							<span class="job-level" id="smithy-level"></span>
-							<span class="chaos"
-								>(<span id="smithy-chaos"></span>% chaos)</span
-							>
-						</p>
-						<div class="assignment villager">
-							<p>
-								Villagers:
-								<span
-									class="job-count"
-									id="blacksmith-villager"
-								></span>
-							</p>
-							<div class="buttons">
-								<button id="blacksmith-villager-up">+</button>
-								<button id="blacksmith-villager-down">‒</button>
-							</div>
-						</div>
-						<div class="assignment mentor">
-							<p>
-								Mentors:
-								<span
-									class="job-count"
-									id="blacksmith-mentor"
-								></span>
-							</p>
-							<div class="buttons">
-								<button id="blacksmith-mentor-up">+</button>
-								<button id="blacksmith-mentor-down">‒</button>
-							</div>
-						</div>
-						<div class="assignment manager">
-							<p>
-								Managers:
-								<span
-									class="job-count"
-									id="blacksmith-manager"
-								></span>
-							</p>
-							<div class="buttons">
-								<button id="blacksmith-manager-up">+</button>
-								<button id="blacksmith-manager-down">‒</button>
-							</div>
-						</div>
-					</div>
-					<div class="job academy">
-						<h2>Academy</h2>
-						<p class="job-details">
-							Lv.
-							<span class="job-level" id="academy-level"></span>
-							<span class="chaos"
-								>(<span id="academy-chaos"></span>% chaos)</span
-							>
-						</p>
-						<div class="assignment villager">
-							<p>
-								Villagers:
-								<span
-									class="job-count"
-									id="professor-villager"
-								></span>
-							</p>
-							<div class="buttons">
-								<button id="professor-villager-up">+</button>
-								<button id="professor-villager-down">‒</button>
-							</div>
-						</div>
-						<div class="assignment mentor">
-							<p>
-								Mentors:
-								<span
-									class="job-count"
-									id="professor-mentor"
-								></span>
-							</p>
-							<div class="buttons">
-								<button id="professor-mentor-up">+</button>
-								<button id="professor-mentor-down">‒</button>
-							</div>
-						</div>
-						<div class="assignment manager">
-							<p>
-								Managers:
-								<span
-									class="job-count"
-									id="professor-manager"
-								></span>
-							</p>
-							<div class="buttons">
-								<button id="professor-manager-up">+</button>
-								<button id="professor-manager-down">‒</button>
-							</div>
-						</div>
-					</div>
-				</div>
+      <!-- Tab buttons -->
+      <nav id="tabs">
+        <button id="assign-button" class="tab-btn">Crew</button>
+        <button id="craft-button" class="tab-btn">Book Gigs</button>
+        <button id="research-button" class="tab-btn">Hustle</button>
+      </nav>
 
-				<!-- Craft tab - upgrades -->
-				<div id="craft">
-					<!-- Filled in by JS -->
-				</div>
+      <!-- CREW tab -->
+      <section id="assign" class="tab-section">
 
-				<!-- Research tab - late-game upgrades -->
-				<div id="research" class="tab">
-					<!-- Filled in by JS -->
-				</div>
-			</section>
+        <div class="building-block" id="van-block">
+          <h3>Van <span class="level-badge">Lv.<span id="tent-level">0</span></span></h3>
+          <p><span id="lumberjack">0</span> roadies riding along</p>
+        </div>
 
-			<!-- Buttons for switching between tabs -->
-			<nav>
-				<button class="tab-button" id="assign-button">Assign</button>
-				<button class="tab-button" id="craft-button">Craft</button>
-				<button class="tab-button" id="research-button">
-					Research
-				</button>
-			</nav>
-		</section>
+        <div class="building-block" id="bar-block">
+          <h3>Bar Circuit <span class="level-badge">Lv.<span id="pier-level">0</span></span>
+            <span class="chaos-badge">(<span id="pier-chaos">0</span>% chaos)</span>
+          </h3>
+          <div class="job-row">
+            <span class="job-label">Roadies</span>
+            <button id="fisherman-villager-down" class="nudge-btn">−</button>
+            <span id="fisherman-villager">0</span>
+            <button id="fisherman-villager-up" class="nudge-btn">+</button>
+          </div>
+          <div class="job-row">
+            <span class="job-label">Tour Mgrs</span>
+            <button id="fisherman-mentor-down" class="nudge-btn">−</button>
+            <span id="fisherman-mentor">0</span>
+            <button id="fisherman-mentor-up" class="nudge-btn">+</button>
+          </div>
+          <div class="job-row">
+            <span class="job-label">A&amp;R Reps</span>
+            <button id="fisherman-manager-down" class="nudge-btn">−</button>
+            <span id="fisherman-manager">0</span>
+            <button id="fisherman-manager-up" class="nudge-btn">+</button>
+          </div>
+        </div>
 
-		<!-- Log display with recent events -->
-		<section id="log">
-			<button id="log-expand">
-				Log hide/expand
-				<!-- Text replaced via CSS -->
-			</button>
-			<div id="message-area">
-				<!-- Filled in by JS -->
-			</div>
-		</section>
+        <div class="building-block" id="club-block">
+          <h3>Club Circuit <span class="level-badge">Lv.<span id="quarry-level">0</span></span>
+            <span class="chaos-badge">(<span id="quarry-chaos">0</span>% chaos)</span>
+          </h3>
+          <div class="job-row">
+            <span class="job-label">Roadies</span>
+            <button id="miner-villager-down" class="nudge-btn">−</button>
+            <span id="miner-villager">0</span>
+            <button id="miner-villager-up" class="nudge-btn">+</button>
+          </div>
+          <div class="job-row">
+            <span class="job-label">Tour Mgrs</span>
+            <button id="miner-mentor-down" class="nudge-btn">−</button>
+            <span id="miner-mentor">0</span>
+            <button id="miner-mentor-up" class="nudge-btn">+</button>
+          </div>
+          <div class="job-row">
+            <span class="job-label">A&amp;R Reps</span>
+            <button id="miner-manager-down" class="nudge-btn">−</button>
+            <span id="miner-manager">0</span>
+            <button id="miner-manager-up" class="nudge-btn">+</button>
+          </div>
+        </div>
 
-		<!-- Tutorial pop-up overlay -->
-		<div id="popup-shroud">
-			<div id="popup">
-				<p id="popup-text">
-					<!-- Filled in by JS -->
-				</p>
-				<button id="popup-dismiss">Okay</button>
-			</div>
-		</div>
+        <div class="building-block" id="merch-block">
+          <h3>Merch Table <span class="level-badge">Lv.<span id="smithy-level">0</span></span>
+            <span class="chaos-badge">(<span id="smithy-chaos">0</span>% chaos)</span>
+          </h3>
+          <div class="job-row">
+            <span class="job-label">Roadies</span>
+            <button id="blacksmith-villager-down" class="nudge-btn">−</button>
+            <span id="blacksmith-villager">0</span>
+            <button id="blacksmith-villager-up" class="nudge-btn">+</button>
+          </div>
+          <div class="job-row">
+            <span class="job-label">Tour Mgrs</span>
+            <button id="blacksmith-mentor-down" class="nudge-btn">−</button>
+            <span id="blacksmith-mentor">0</span>
+            <button id="blacksmith-mentor-up" class="nudge-btn">+</button>
+          </div>
+          <div class="job-row">
+            <span class="job-label">A&amp;R Reps</span>
+            <button id="blacksmith-manager-down" class="nudge-btn">−</button>
+            <span id="blacksmith-manager">0</span>
+            <button id="blacksmith-manager-up" class="nudge-btn">+</button>
+          </div>
+        </div>
 
-		<!-- Opaque overlay for major story events -->
-		<div id="story-shroud">
-			<p id="story-text">
-				Hello world!
-				<!-- Filled in by JS-->
-			</p>
-			<button id="story-dismiss">
-				Embark
-				<!-- Filled in by JS-->
-			</button>
-		</div>
-	</body>
+        <div class="building-block" id="festival-block">
+          <h3>Festival Stage <span class="level-badge">Lv.<span id="academy-level">0</span></span>
+            <span class="chaos-badge">(<span id="academy-chaos">0</span>% chaos)</span>
+          </h3>
+          <div class="job-row">
+            <span class="job-label">Roadies</span>
+            <button id="professor-villager-down" class="nudge-btn">−</button>
+            <span id="professor-villager">0</span>
+            <button id="professor-villager-up" class="nudge-btn">+</button>
+          </div>
+          <div class="job-row">
+            <span class="job-label">Tour Mgrs</span>
+            <button id="professor-mentor-down" class="nudge-btn">−</button>
+            <span id="professor-mentor">0</span>
+            <button id="professor-mentor-up" class="nudge-btn">+</button>
+          </div>
+          <div class="job-row">
+            <span class="job-label">A&amp;R Reps</span>
+            <button id="professor-manager-down" class="nudge-btn">−</button>
+            <span id="professor-manager">0</span>
+            <button id="professor-manager-up" class="nudge-btn">+</button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- BOOK GIGS tab (was Craft) -->
+      <section id="craft" class="tab-section" style="display:none"></section>
+
+      <!-- HUSTLE tab (was Research) -->
+      <section id="research" class="tab-section" style="display:none"></section>
+
+      <!-- Save / Load / Reset -->
+      <div id="save-row">
+        <button id="save">Save</button>
+        <button id="load">Load</button>
+        <button id="reset">Reset</button>
+      </div>
+
+      <!-- Tour Log -->
+      <div id="log">
+        <button id="log-expand">📋 Tour Log ▾</button>
+        <div id="message-area"></div>
+      </div>
+
+    </div><!-- /side -->
+  </div><!-- /layout -->
+
+  <!-- Hidden gather buttons (still needed by game.js listeners, just invisible) -->
+  <button id="gather-wood" style="display:none"></button>
+  <button id="gather-food" style="display:none"></button>
+
+  <script src="assets/js/util.js" defer></script>
+  <script src="assets/js/upgradeList.js" defer></script>
+  <script src="assets/js/tutorial.js" defer></script>
+  <script src="assets/js/dom.js" defer></script>
+  <script src="assets/js/game.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/road.js" defer></script>
+</body>
 </html>
