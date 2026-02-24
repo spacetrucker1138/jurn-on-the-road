@@ -190,6 +190,19 @@ class Game {
     this.dom.craftSpeed.textContent   = (1 / this.getCraftSpeedup()).toFixed(1);
     this.dom.researchSpeed.textContent = (1 / this.getResearchSpeedup()).toFixed(1);
 
+    // HUD bar — always-visible inventory strip
+    const _fmt = n => n >= 10000 ? (n/1000).toFixed(1)+"k" : Math.floor(n).toString();
+    const _crew = this.lumberjack
+      + this.fisherman.villager  + this.fisherman.mentor  + this.fisherman.manager
+      + this.miner.villager      + this.miner.mentor      + this.miner.manager
+      + this.blacksmith.villager + this.blacksmith.mentor + this.blacksmith.manager
+      + this.professor.villager  + this.professor.mentor  + this.professor.manager;
+    if (this.dom.hudCash) this.dom.hudCash.textContent = _fmt(this.cash);
+    if (this.dom.hudFans) this.dom.hudFans.textContent = _fmt(this.fans);
+    if (this.dom.hudGear) this.dom.hudGear.textContent = _fmt(this.gear);
+    if (this.dom.hudCrew) this.dom.hudCrew.textContent = _crew;
+    if (this.dom.hudVan)  this.dom.hudVan.textContent  = this.levels.tent;
+
     this.dom.lumberjack.textContent          = this.lumberjack;
     this.dom.fishermanVillager.textContent   = this.fisherman.villager;
     this.dom.minerVillager.textContent       = this.miner.villager;
