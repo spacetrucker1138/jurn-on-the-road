@@ -73,13 +73,12 @@ body {
 
 /* Screen-swap toggle */
 #screen-toggle {
-  position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   gap: 8px;
-  z-index: 10;
+  justify-content: center;
+  padding: 6px 0 2px;
+  background: rgba(0,0,0,.55);
+  flex-shrink: 0;
 }
 
 .toggle-btn {
@@ -102,11 +101,16 @@ body {
 .toggle-btn:hover:not(.active-toggle) { border-color: var(--mustard); }
 
 /* ── ROAD SCENE ─────────────────────────────────────────────────────────────── */
-#road-view { background: #111; }
+#road-view {
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
 #road-scene {
   position: relative;
-  height: calc(100% - 120px);
+  flex: 1 1 auto;
   overflow: hidden;
 }
 
@@ -170,16 +174,14 @@ body {
 .road-event.bad { color: var(--red); }
 
 #road-actions {
-  height: auto;
-  min-height: 110px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 8px;
-  padding: 10px 12px;
+  padding: 8px 12px;
   background: rgba(0,0,0,.55);
   border-top: 1px solid #333;
+  flex-shrink: 0;
 }
 .road-btn {
   background: var(--grey);
@@ -537,12 +539,15 @@ body {
 /* ══ HOME BASE manual earn strip ══ */
 #hq-earn-strip {
   position: absolute;
-  bottom: 52px;
+  bottom: 58px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: 10px;
   z-index: 10;
+  background: rgba(0,0,0,.6);
+  padding: 6px 10px;
+  border: 1px solid #444;
 }
 
 /* ══ CLICK FLOATER ══ */
