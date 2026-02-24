@@ -68,9 +68,10 @@ body {
 }
 
 /* ── WORLD VIEWS ────────────────────────────────────────────────────────────── */
-.world-view { display: none; flex: 1 1 auto; overflow: hidden; }
-.world-view.active-view { display: block; }
-#road-view.active-view  { display: flex; }
+.world-view                  { display: none; }
+.world-view.active-view      { display: flex; flex: 1 1 auto; overflow: hidden; }
+#road-view.active-view       { flex-direction: column; }
+#home-base-view.active-view  { position: relative; }
 
 #hq-bg { width: 100%; height: 100%; object-fit: cover; }
 
