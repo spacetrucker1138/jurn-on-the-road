@@ -102,5 +102,12 @@ class DOM {
 
     // Dynamic upgrade list
     this.upgrades = [];
+
+    // HUD bar elements (always-visible inventory strip)
+    this.hudCash = document.getElementById("hud-cash");
+    this.hudFans = document.getElementById("hud-fans");
+    this.hudGear = document.getElementById("hud-gear");
+    this.hudCrew = document.getElementById("hud-crew");
+    this.hudVan  = document.getElementById("hud-van");
   }
 }
