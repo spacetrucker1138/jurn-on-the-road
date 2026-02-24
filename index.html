@@ -14,7 +14,8 @@
   <link rel="manifest" href="site.webmanifest" />
 </head>
 <body>
-  <!-- Story shroud (full-screen narrative) -->
+
+  <!-- Story shroud -->
   <div id="story-shroud">
     <div id="story-box">
       <p id="story-text"></p>
@@ -33,12 +34,12 @@
   <!-- Main layout -->
   <div id="layout">
 
-    <!-- LEFT: World canvas (swaps between Home Base & On the Road) -->
+    <!-- LEFT: World canvas -->
     <div id="world">
-      <!-- HOME BASE view (village = band HQ) -->
+
+      <!-- HOME BASE view -->
       <div id="home-base-view" class="world-view active-view">
         <img src="assets/images/world.webp" alt="Band HQ" id="hq-bg" />
-        <!-- Building sprites rendered on top by JS -->
       </div>
 
       <!-- ON THE ROAD view -->
@@ -51,9 +52,18 @@
             <p class="road-hint">Hit the road to start earning Fans &amp; Cash between shows.</p>
           </div>
         </div>
+
+        <!-- Road actions: events + manual buttons -->
         <div id="road-actions">
-          <button id="book-show-btn" class="road-btn">🎸 Book a Show</button>
-          <button id="busk-btn" class="road-btn">🥁 Busk for Cash</button>
+          <div id="road-event-btns">
+            <button id="book-show-btn" class="road-btn">🎸 Book Show</button>
+            <button id="busk-btn" class="road-btn">🥁 Busk</button>
+          </div>
+          <div id="manual-earn-btns">
+            <button id="earn-cash-btn" class="earn-btn earn-cash">💵 Earn Cash</button>
+            <button id="earn-fans-btn" class="earn-btn earn-fans">📣 Earn Fans</button>
+            <button id="earn-gear-btn" class="earn-btn earn-gear">🎸 Earn Gear</button>
+          </div>
         </div>
       </div>
 
@@ -73,7 +83,36 @@
         <span id="version">v0.1-alpha</span>
       </header>
 
-      <!-- Resources -->
+      <!-- ══ STICKY HUD ══ Always-visible inventory bar -->
+      <div id="hud-bar">
+        <div class="hud-item">
+          <span class="hud-icon">💵</span>
+          <span class="hud-label">Cash</span>
+          <span class="hud-val" id="hud-cash">0</span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-icon">📣</span>
+          <span class="hud-label">Fans</span>
+          <span class="hud-val" id="hud-fans">0</span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-icon">🎸</span>
+          <span class="hud-label">Gear</span>
+          <span class="hud-val" id="hud-gear">0</span>
+        </div>
+        <div class="hud-item hud-divider">
+          <span class="hud-icon">🧑‍🎤</span>
+          <span class="hud-label">Crew</span>
+          <span class="hud-val" id="hud-crew">0</span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-icon">🚐</span>
+          <span class="hud-label">Van Lv</span>
+          <span class="hud-val" id="hud-van">0</span>
+        </div>
+      </div>
+
+      <!-- Resources (detailed, shown in side panel) -->
       <section id="resources">
         <div class="resource" id="cash-row">
           <span class="res-label">💵 Cash</span>
@@ -97,8 +136,8 @@
           </span>
         </div>
         <div class="speed-row">
-          <span>Booking speed: <span id="craft-speed">1.0</span>x</span>
-          <span>Hustle speed: <span id="research-speed">1.0</span>x</span>
+          <span>Booking: <span id="craft-speed">1.0</span>x</span>
+          <span>Hustle: <span id="research-speed">1.0</span>x</span>
         </div>
       </section>
 
@@ -127,13 +166,13 @@
             <span id="fisherman-villager">0</span>
             <button id="fisherman-villager-up" class="nudge-btn">+</button>
           </div>
-          <div class="job-row">
+          <div class="job-row mentor-row">
             <span class="job-label">Tour Mgrs</span>
             <button id="fisherman-mentor-down" class="nudge-btn">−</button>
             <span id="fisherman-mentor">0</span>
             <button id="fisherman-mentor-up" class="nudge-btn">+</button>
           </div>
-          <div class="job-row">
+          <div class="job-row manager-row">
             <span class="job-label">A&amp;R Reps</span>
             <button id="fisherman-manager-down" class="nudge-btn">−</button>
             <span id="fisherman-manager">0</span>
@@ -151,13 +190,13 @@
             <span id="miner-villager">0</span>
             <button id="miner-villager-up" class="nudge-btn">+</button>
           </div>
-          <div class="job-row">
+          <div class="job-row mentor-row">
             <span class="job-label">Tour Mgrs</span>
             <button id="miner-mentor-down" class="nudge-btn">−</button>
             <span id="miner-mentor">0</span>
             <button id="miner-mentor-up" class="nudge-btn">+</button>
           </div>
-          <div class="job-row">
+          <div class="job-row manager-row">
             <span class="job-label">A&amp;R Reps</span>
             <button id="miner-manager-down" class="nudge-btn">−</button>
             <span id="miner-manager">0</span>
@@ -175,13 +214,13 @@
             <span id="blacksmith-villager">0</span>
             <button id="blacksmith-villager-up" class="nudge-btn">+</button>
           </div>
-          <div class="job-row">
+          <div class="job-row mentor-row">
             <span class="job-label">Tour Mgrs</span>
             <button id="blacksmith-mentor-down" class="nudge-btn">−</button>
             <span id="blacksmith-mentor">0</span>
             <button id="blacksmith-mentor-up" class="nudge-btn">+</button>
           </div>
-          <div class="job-row">
+          <div class="job-row manager-row">
             <span class="job-label">A&amp;R Reps</span>
             <button id="blacksmith-manager-down" class="nudge-btn">−</button>
             <span id="blacksmith-manager">0</span>
@@ -199,13 +238,13 @@
             <span id="professor-villager">0</span>
             <button id="professor-villager-up" class="nudge-btn">+</button>
           </div>
-          <div class="job-row">
+          <div class="job-row mentor-row">
             <span class="job-label">Tour Mgrs</span>
             <button id="professor-mentor-down" class="nudge-btn">−</button>
             <span id="professor-mentor">0</span>
             <button id="professor-mentor-up" class="nudge-btn">+</button>
           </div>
-          <div class="job-row">
+          <div class="job-row manager-row">
             <span class="job-label">A&amp;R Reps</span>
             <button id="professor-manager-down" class="nudge-btn">−</button>
             <span id="professor-manager">0</span>
@@ -215,10 +254,10 @@
 
       </section>
 
-      <!-- BOOK GIGS tab (was Craft) -->
+      <!-- BOOK GIGS tab -->
       <section id="craft" class="tab-section" style="display:none"></section>
 
-      <!-- HUSTLE tab (was Research) -->
+      <!-- HUSTLE tab -->
       <section id="research" class="tab-section" style="display:none"></section>
 
       <!-- Save / Load / Reset -->
@@ -237,7 +276,7 @@
     </div><!-- /side -->
   </div><!-- /layout -->
 
-  <!-- Hidden gather buttons (still needed by game.js listeners, just invisible) -->
+  <!-- Hidden gather buttons (still needed by game.js listeners) -->
   <button id="gather-wood" style="display:none"></button>
   <button id="gather-food" style="display:none"></button>
 
